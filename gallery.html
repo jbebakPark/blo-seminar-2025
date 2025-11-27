@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2030 Business LIVE ON - 행사 스케치</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f8fafb;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 640px;
+            margin: 0 auto;
+            background: #fff;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0c7bdc 0%, #0a5ba8 100%);
+            color: white;
+            padding: 30px 25px;
+            text-align: center;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: 300;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            padding: 30px 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0c7bdc;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 4px solid #0c7bdc;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .photo-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .photo-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(12, 123, 220, 0.2);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-item.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .photo-item.full-width img {
+            height: 300px;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e6f4ff 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+            border: 2px solid #0c7bdc;
+        }
+
+        .info-box h3 {
+            color: #0c7bdc;
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .info-box p {
+            color: #2c3e50;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #0c7bdc 0%, #0a5ba8 100%);
+            padding: 40px 25px;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #0c7bdc;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .cta-button.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a2a3a;
+            color: white;
+            padding: 30px 25px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            max-width: 180px;
+            margin-bottom: 15px;
+        }
+
+        .footer-text {
+            font-size: 13px;
+            opacity: 0.8;
+            line-height: 1.8;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: 300;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .close-modal:hover {
+            color: #0c7bdc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <a href="index.html" class="back-button">←</a>
+            <h1>행사 스케치</h1>
+            <p>2030 Business LIVE ON 현장</p>
+        </div>
+
+        <!-- Gallery Section -->
+        <div class="gallery-section">
+            <div class="section-title">오프라인 현장</div>
+            <div class="photo-grid">
+                <div class="photo-item" onclick="openModal(this)">
+                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD..." alt="세미나 현장 1">
+                </div>
+                <div class="photo-item" onclick="openModal(this)">
+                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD..." alt="세미나 현장 2">
+                </div>
+                <div class="photo-item" onclick="openModal(this)">
+                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD..." alt="조찬 식사">
+                </div>
+                <div class="photo-item" onclick="openModal(this)">
+                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD..." alt="강연장 전경">
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>프리미엄 조찬 세미나</h3>
+                <p>CEO와 임원, 자산가를 위한 특별한 네트워킹 시간<br>
+                최고급 조찬과 함께하는 인사이트 공유의 장</p>
+            </div>
+
+            <div class="section-title">온라인 시청 화면</div>
+            <div class="photo-grid">
+                <div class="photo-item full-width" onclick="openModal(this)">
+                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD..." alt="온라인 시청 화면 1">
+                </div>
+                <div class="photo-item full-width" onclick="openModal(this)">
+                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD..." alt="온라인 시청 화면 2">
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>ON & OFF 하이브리드 세미나</h3>
+                <p>참석이 어려운 분들을 위한 실시간 온라인 중계<br>
+                언제 어디서나 프리미엄 콘텐츠를 경험하세요</p>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <div class="cta-title">다음 세미나에서 만나요!</div>
+            <a href="https://m.samsunglife.com/display/event/MDP-IFEVT010112M/202501-01/9618628" class="cta-button">12월 세미나 신청하기</a>
+            <a href="index.html" class="cta-button secondary">메인으로 돌아가기</a>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <img src="data:image/webp;base64,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" alt="Samsung Financial Networks" class="footer-logo">
+            <div class="footer-text">
+                당신의 성공적인 미래를 위한 파트너<br>
+                삼성생명이 함께 합니다
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <script>
+        function openModal(element) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const img = element.querySelector('img');
+            
+            modal.classList.add('active');
+            modalImg.src = img.src;
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
